@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MathGuru.ch — Your Path to Excellence in Math</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Satoshi:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#0d7377;
+  --teal-bright:#14b8a6;
+  --teal-mist:#d1f0ed;
+  --lavender:#9b6bb0;
+  --navy:#0c1d35;
+  --navy-mid:#162d4d;
+  --gold:#d4a843;
+  --cream:#f7f5f2;
+  --white:#fff;
+  --text:#1a2a3a;
+  --text-mid:#4a5c6d;
+  --text-muted:#8a97a8;
+  --serif:'Instrument Serif',serif;
+  --sans:'Satoshi',sans-serif;
+}
+html{scroll-behavior:smooth;font-size:16px;overflow-x:hidden}
+body{font-family:var(--sans);color:var(--text);background:var(--cream);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+
+/* ===== CUSTOM CURSOR DOT ===== */
+.cursor-dot{
+  width:10px;height:10px;border-radius:50%;background:var(--teal);
+  position:fixed;pointer-events:none;z-index:10000;
+  transition:transform 0.15s ease;mix-blend-mode:difference;
+  display:none;
+}
+@media(hover:hover){.cursor-dot{display:block}}
+
+/* ===== NAV ===== */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  padding:0 clamp(24px,5vw,80px);height:80px;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:all 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+nav.scrolled{
+  background:rgba(247,245,242,0.92);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  box-shadow:0 1px 0 rgba(0,0,0,0.06);
+}
+.nav-logo{
+  font-family:var(--serif);font-size:1.6rem;color:var(--white);
+  display:flex;align-items:center;gap:10px;
+  transition:color 0.5s ease;
+}
+nav.scrolled .nav-logo{color:var(--navy)}
+.logo-pi{
+  width:40px;height:40px;border-radius:12px;
+  background:linear-gradient(135deg,var(--teal),var(--lavender));
+  display:flex;align-items:center;justify-content:center;
+  color:var(--white);font-family:var(--serif);font-size:1.3rem;
+  font-weight:400;transform:rotate(-4deg);
+}
+.nav-links{display:flex;align-items:center;gap:36px;list-style:none}
+.nav-links a{
+  font-size:0.88rem;font-weight:500;color:rgba(255,255,255,0.75);
+  transition:all 0.3s ease;letter-spacing:0.02em;
+}
+nav.scrolled .nav-links a{color:var(--text-mid)}
+.nav-links a:hover{color:var(--white)}
+nav.scrolled .nav-links a:hover{color:var(--teal)}
+.nav-cta-btn{
+  padding:10px 28px;border-radius:100px;font-weight:700;font-size:0.85rem;
+  background:var(--white);color:var(--navy);
+  transition:all 0.4s cubic-bezier(0.16,1,0.3,1);
+  letter-spacing:0.03em;
+}
+nav.scrolled .nav-cta-btn{background:var(--navy);color:var(--white)}
+.nav-cta-btn:hover{transform:scale(1.05)}
+.lang-pills{display:flex;gap:3px;background:rgba(255,255,255,0.12);border-radius:20px;padding:3px}
+nav.scrolled .lang-pills{background:rgba(12,29,53,0.06)}
+.lang-pill{
+  padding:4px 14px;border:none;background:transparent;border-radius:16px;
+  font-size:0.72rem;font-weight:700;font-family:var(--sans);cursor:pointer;
+  color:rgba(255,255,255,0.6);transition:all 0.3s;
+}
+nav.scrolled .lang-pill{color:var(--text-muted)}
+.lang-pill.active{background:rgba(255,255,255,0.2);color:var(--white)}
+nav.scrolled .lang-pill.active{background:var(--white);color:var(--teal);box-shadow:0 1px 4px rgba(0,0,0,0.08)}
+.mobile-btn{display:none;background:none;border:none;cursor:pointer;padding:8px}
+.mobile-btn span{display:block;width:24px;height:2px;background:var(--white);border-radius:2px;margin:5px 0;transition:all 0.3s}
+nav.scrolled .mobile-btn span{background:var(--navy)}
+
+/* ===== HERO — FULL BLEED ===== */
+.hero{
+  height:100vh;min-height:700px;position:relative;
+  display:flex;align-items:flex-end;
+  padding:0 clamp(24px,5vw,80px) 80px;
+  overflow:hidden;
+}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover}
+.hero-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(180deg,rgba(12,29,53,0.3) 0%,rgba(12,29,53,0.65) 60%,rgba(12,29,53,0.88) 100%);
+}
+.hero-content{position:relative;z-index:2;max-width:900px;padding-bottom:20px}
+.hero h1{
+  font-family:var(--serif);font-size:clamp(3rem,7vw,6rem);
+  line-height:1.0;color:var(--white);margin-bottom:24px;
+  font-weight:400;
+}
+.hero h1 em{font-style:italic;color:var(--teal-bright)}
+.hero-sub{
+  font-size:clamp(1rem,1.8vw,1.25rem);line-height:1.7;
+  color:rgba(255,255,255,0.7);max-width:580px;margin-bottom:40px;
+  font-weight:300;
+}
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:48px}
+.btn-hero{
+  padding:18px 44px;border-radius:100px;font-family:var(--sans);
+  font-weight:700;font-size:0.95rem;cursor:pointer;
+  transition:all 0.4s cubic-bezier(0.16,1,0.3,1);display:inline-flex;
+  align-items:center;gap:10px;letter-spacing:0.02em;border:none;
+}
+.btn-hero.primary{
+  background:var(--teal-bright);color:var(--navy);
+  box-shadow:0 4px 24px rgba(20,184,166,0.35);
+}
+.btn-hero.primary:hover{transform:translateY(-3px);box-shadow:0 8px 36px rgba(20,184,166,0.45)}
+.btn-hero.outline{
+  background:transparent;color:var(--white);
+  border:2px solid rgba(255,255,255,0.35);
+}
+.btn-hero.outline:hover{border-color:var(--white);background:rgba(255,255,255,0.08)}
+.hero-scroll{
+  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+  z-index:2;color:rgba(255,255,255,0.4);font-size:0.75rem;
+  letter-spacing:0.2em;text-transform:uppercase;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+}
+.scroll-line{width:1px;height:40px;background:rgba(255,255,255,0.2);position:relative;overflow:hidden}
+.scroll-line::after{
+  content:'';position:absolute;top:-100%;left:0;width:100%;height:100%;
+  background:var(--teal-bright);
+  animation:scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse{
+  0%{top:-100%}50%{top:100%}100%{top:100%}
+}
+
+/* ===== MARQUEE STATS ===== */
+.marquee-bar{
+  background:var(--navy);padding:20px 0;overflow:hidden;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.marquee-track{
+  display:flex;gap:80px;animation:marquee 25s linear infinite;
+  white-space:nowrap;
+}
+.marquee-item{display:flex;align-items:center;gap:12px;color:rgba(255,255,255,0.6);font-size:0.88rem;font-weight:500}
+.marquee-item strong{color:var(--teal-bright);font-size:1.1rem;font-family:var(--serif)}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ===== HORIZONTAL GALLERY ===== */
+.gallery{padding:0;overflow:hidden;position:relative}
+.gallery-track{
+  display:flex;gap:8px;
+  animation:scroll-gallery 40s linear infinite;
+}
+.gallery-img{
+  flex:0 0 auto;width:320px;height:240px;border-radius:0;overflow:hidden;
+  position:relative;
+}
+.gallery-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease}
+.gallery-img:hover img{transform:scale(1.06)}
+.gallery-img .gallery-label{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:16px 20px;
+  background:linear-gradient(transparent,rgba(12,29,53,0.8));
+  color:var(--white);font-size:0.78rem;font-weight:600;
+  letter-spacing:0.04em;opacity:0;transition:opacity 0.3s ease;
+}
+.gallery-img:hover .gallery-label{opacity:1}
+@keyframes scroll-gallery{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ===== ABOUT ===== */
+.about{padding:clamp(80px,14vw,160px) clamp(24px,5vw,80px)}
+.about-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:100px;
+  align-items:center;
+}
+.about-images{position:relative;height:560px}
+.about-img-main{
+  width:80%;height:420px;border-radius:4px;overflow:hidden;
+  position:relative;z-index:1;
+  box-shadow:0 40px 80px rgba(12,29,53,0.15);
+}
+.about-img-main img{width:100%;height:100%;object-fit:cover}
+.about-img-accent{
+  position:absolute;bottom:0;right:0;width:55%;height:240px;
+  border-radius:4px;overflow:hidden;z-index:2;border:6px solid var(--cream);
+  box-shadow:0 20px 50px rgba(0,0,0,0.1);
+}
+.about-img-accent img{width:100%;height:100%;object-fit:cover}
+.about-badge{
+  position:absolute;top:30px;right:20px;z-index:3;
+  background:var(--navy);color:var(--white);padding:20px 28px;
+  border-radius:4px;text-align:center;
+  box-shadow:0 12px 36px rgba(12,29,53,0.25);
+}
+.about-badge strong{display:block;font-size:2.4rem;font-family:var(--serif);line-height:1}
+.about-badge span{font-size:0.72rem;opacity:0.65;letter-spacing:0.08em;text-transform:uppercase}
+.label{
+  font-size:0.72rem;font-weight:700;letter-spacing:0.2em;
+  text-transform:uppercase;color:var(--teal);margin-bottom:20px;
+}
+.about-text h2{
+  font-family:var(--serif);font-size:clamp(2.2rem,4vw,3.4rem);
+  line-height:1.1;color:var(--navy);margin-bottom:24px;font-weight:400;
+}
+.about-text h2 em{font-style:italic;color:var(--teal)}
+.about-text .lead{
+  font-size:1.05rem;line-height:1.8;color:var(--text-mid);
+  margin-bottom:36px;
+}
+.cred-list{display:flex;flex-direction:column;gap:12px}
+.cred-row{
+  display:flex;align-items:center;gap:16px;
+  padding:16px 20px;border-radius:4px;background:var(--white);
+  border:1px solid rgba(12,29,53,0.06);
+  transition:all 0.35s cubic-bezier(0.16,1,0.3,1);
+}
+.cred-row:hover{transform:translateX(10px);box-shadow:0 8px 32px rgba(13,115,119,0.08);border-color:var(--teal-mist)}
+.cred-icon{
+  width:44px;height:44px;min-width:44px;border-radius:4px;
+  background:var(--teal-mist);display:flex;align-items:center;
+  justify-content:center;font-size:1.15rem;
+}
+.cred-label{font-weight:700;font-size:0.88rem;color:var(--navy)}
+.cred-sub{font-size:0.78rem;color:var(--text-muted);margin-top:2px}
+
+/* ===== SERVICES ===== */
+.services{
+  background:var(--white);
+  padding:clamp(80px,14vw,160px) clamp(24px,5vw,80px);
+}
+.services-head{text-align:center;margin-bottom:72px}
+.services-head h2{
+  font-family:var(--serif);font-size:clamp(2.2rem,4vw,3.4rem);
+  color:var(--navy);font-weight:400;margin-bottom:16px;
+}
+.services-head h2 em{font-style:italic;color:var(--teal)}
+.services-head p{font-size:1rem;color:var(--text-mid);max-width:520px;margin:0 auto;line-height:1.7}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.svc-card{
+  position:relative;overflow:hidden;border-radius:4px;
+  height:420px;cursor:pointer;
+  transition:transform 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.svc-card:hover{transform:scale(0.98)}
+.svc-card img{width:100%;height:100%;object-fit:cover;transition:transform 0.7s ease}
+.svc-card:hover img{transform:scale(1.08)}
+.svc-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 30%,rgba(12,29,53,0.88) 100%);
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:36px 28px;transition:background 0.4s ease;
+}
+.svc-card:hover .svc-overlay{background:linear-gradient(180deg,transparent 10%,rgba(13,115,119,0.85) 100%)}
+.svc-num{
+  font-family:var(--serif);font-size:4rem;color:rgba(255,255,255,0.1);
+  line-height:1;position:absolute;top:24px;left:28px;
+  transition:color 0.4s ease;
+}
+.svc-card:hover .svc-num{color:rgba(255,255,255,0.25)}
+.svc-tag{
+  display:inline-block;padding:4px 14px;border-radius:100px;
+  background:rgba(20,184,166,0.2);color:var(--teal-bright);
+  font-size:0.7rem;font-weight:700;margin-bottom:12px;
+  letter-spacing:0.06em;width:fit-content;
+}
+.svc-overlay h3{
+  font-family:var(--serif);font-size:1.5rem;color:var(--white);
+  margin-bottom:8px;font-weight:400;
+}
+.svc-overlay p{
+  font-size:0.85rem;color:rgba(255,255,255,0.7);line-height:1.6;
+  max-height:0;overflow:hidden;transition:max-height 0.5s ease,opacity 0.4s ease;opacity:0;
+}
+.svc-card:hover .svc-overlay p{max-height:100px;opacity:1}
+
+/* ===== VALUES / LEVELS — NUMBERED ===== */
+.values{
+  background:var(--navy);color:var(--white);
+  padding:clamp(80px,14vw,160px) clamp(24px,5vw,80px);
+  position:relative;overflow:hidden;
+}
+.values::before{
+  content:'';position:absolute;top:-200px;right:-200px;
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(20,184,166,0.15),transparent 70%);
+}
+.values-head{margin-bottom:72px}
+.values-head .label{color:var(--teal-bright)}
+.values-head h2{font-family:var(--serif);font-size:clamp(2.2rem,4vw,3.4rem);font-weight:400}
+.values-head h2 em{font-style:italic;color:var(--teal-bright)}
+.values-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.values-list{display:flex;flex-direction:column;gap:40px}
+.val-item{display:flex;gap:24px;align-items:flex-start}
+.val-num{
+  font-family:var(--serif);font-size:3rem;line-height:1;
+  color:rgba(255,255,255,0.08);min-width:60px;
+  transition:color 0.4s ease;
+}
+.val-item:hover .val-num{color:var(--teal-bright)}
+.val-content h3{font-size:1.1rem;font-weight:700;margin-bottom:8px;letter-spacing:0.01em}
+.val-content p{font-size:0.88rem;color:rgba(255,255,255,0.55);line-height:1.7}
+.values-img{
+  border-radius:4px;overflow:hidden;height:500px;
+  box-shadow:0 30px 60px rgba(0,0,0,0.3);position:relative;
+}
+.values-img img{width:100%;height:100%;object-fit:cover}
+.values-img::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(20,184,166,0.15),rgba(155,107,176,0.1));
+}
+
+/* ===== TESTIMONIALS — EDITORIAL ===== */
+.testimonials{
+  padding:clamp(80px,14vw,160px) clamp(24px,5vw,80px);
+  background:var(--cream);
+}
+.test-head{text-align:center;margin-bottom:72px}
+.test-head h2{font-family:var(--serif);font-size:clamp(2.2rem,4vw,3.4rem);color:var(--navy);font-weight:400}
+.test-head h2 em{font-style:italic;color:var(--teal)}
+.carousel{position:relative;max-width:1000px;margin:0 auto;overflow:hidden}
+.c-track{display:flex;transition:transform 0.7s cubic-bezier(0.16,1,0.3,1)}
+.c-slide{min-width:100%;padding:0 16px}
+.t-card{
+  display:grid;grid-template-columns:340px 1fr;
+  border-radius:4px;overflow:hidden;
+  background:var(--white);box-shadow:0 24px 64px rgba(12,29,53,0.07);
+  min-height:380px;
+}
+.t-img{position:relative;overflow:hidden}
+.t-img img{width:100%;height:100%;object-fit:cover}
+.t-img::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(13,115,119,0.25),rgba(155,107,176,0.15));
+}
+.t-body{padding:48px;display:flex;flex-direction:column;justify-content:center;position:relative}
+.t-body::before{
+  content:'\201C';position:absolute;top:24px;right:36px;
+  font-family:var(--serif);font-size:7rem;color:rgba(13,115,119,0.06);line-height:1;
+}
+.t-stars{color:var(--gold);font-size:0.9rem;margin-bottom:20px;letter-spacing:2px}
+.t-quote{
+  font-family:var(--serif);font-size:1.15rem;font-style:italic;
+  line-height:1.8;color:var(--navy);margin-bottom:28px;font-weight:400;
+}
+.t-author{display:flex;align-items:center;gap:14px}
+.t-avatar{
+  width:48px;height:48px;border-radius:50%;
+  background:linear-gradient(135deg,var(--teal),var(--lavender));
+  display:flex;align-items:center;justify-content:center;
+  color:var(--white);font-weight:900;font-size:0.9rem;
+}
+.t-name{font-weight:700;font-size:0.88rem;color:var(--navy)}
+.t-role{font-size:0.75rem;color:var(--text-muted);margin-top:2px}
+.c-nav{display:flex;align-items:center;justify-content:center;gap:20px;margin-top:40px}
+.c-btn{
+  width:52px;height:52px;border-radius:50%;border:2px solid var(--navy);
+  background:transparent;cursor:pointer;display:flex;align-items:center;
+  justify-content:center;transition:all 0.3s ease;color:var(--navy);
+}
+.c-btn:hover{background:var(--navy);color:var(--white)}
+.c-btn svg{width:18px;height:18px}
+.c-dots{display:flex;gap:6px}
+.c-dot{
+  width:8px;height:8px;border-radius:50%;background:rgba(12,29,53,0.15);
+  border:none;cursor:pointer;transition:all 0.3s;
+}
+.c-dot.active{background:var(--teal);width:28px;border-radius:8px}
+
+/* ===== STEPS ===== */
+.steps{
+  background:var(--white);
+  padding:clamp(80px,14vw,160px) clamp(24px,5vw,80px);
+}
+.steps-head{text-align:center;margin-bottom:72px}
+.steps-head h2{font-family:var(--serif);font-size:clamp(2.2rem,4vw,3.4rem);color:var(--navy);font-weight:400}
+.steps-head h2 em{font-style:italic;color:var(--teal)}
+.steps-row{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:40px;
+  position:relative;
+}
+.steps-row::before{
+  content:'';position:absolute;top:48px;left:12%;right:12%;
+  height:2px;background:linear-gradient(90deg,var(--teal),var(--lavender),var(--teal));
+}
+.step{text-align:center;position:relative;z-index:1}
+.step-circle{
+  width:96px;height:96px;border-radius:50%;overflow:hidden;
+  margin:0 auto 24px;border:4px solid var(--cream);
+  box-shadow:0 8px 32px rgba(12,29,53,0.1);position:relative;
+}
+.step-circle img{width:100%;height:100%;object-fit:cover}
+.step-num{
+  position:absolute;bottom:-2px;right:-2px;width:32px;height:32px;
+  border-radius:50%;background:var(--navy);color:var(--white);
+  font-family:var(--serif);font-size:0.9rem;
+  display:flex;align-items:center;justify-content:center;
+  border:3px solid var(--cream);z-index:2;
+}
+.step h3{font-family:var(--serif);font-size:1.15rem;color:var(--navy);margin-bottom:8px;font-weight:400}
+.step p{font-size:0.82rem;color:var(--text-muted);line-height:1.6;max-width:200px;margin:0 auto}
+
+/* ===== CTA ===== */
+.cta{
+  position:relative;height:70vh;min-height:480px;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;overflow:hidden;
+}
+.cta-bg{position:absolute;inset:0}
+.cta-bg img{width:100%;height:100%;object-fit:cover}
+.cta-bg::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(145deg,rgba(12,29,53,0.92),rgba(13,115,119,0.85));
+}
+.cta-inner{position:relative;z-index:1}
+.cta h2{
+  font-family:var(--serif);font-size:clamp(2.4rem,5vw,4rem);
+  color:var(--white);margin-bottom:20px;font-weight:400;
+}
+.cta h2 em{font-style:italic;color:var(--teal-bright)}
+.cta p{color:rgba(255,255,255,0.65);font-size:1.05rem;line-height:1.7;max-width:520px;margin:0 auto 40px}
+.btn-gold{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:18px 48px;border-radius:100px;font-family:var(--sans);
+  font-weight:700;font-size:1rem;cursor:pointer;border:none;
+  background:linear-gradient(135deg,var(--gold),#e8c05a);
+  color:var(--navy);
+  transition:all 0.4s cubic-bezier(0.16,1,0.3,1);
+  box-shadow:0 4px 24px rgba(212,168,67,0.4);
+}
+.btn-gold:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 8px 40px rgba(212,168,67,0.5)}
+
+/* ===== FAQ ===== */
+.faq{padding:clamp(80px,14vw,160px) clamp(24px,5vw,80px)}
+.faq-head{text-align:center;margin-bottom:56px}
+.faq-head h2{font-family:var(--serif);font-size:clamp(2.2rem,4vw,3.4rem);color:var(--navy);font-weight:400}
+.faq-head h2 em{font-style:italic;color:var(--teal)}
+.faq-wrap{
+  display:grid;grid-template-columns:1fr 1fr;gap:64px;
+  max-width:1040px;margin:0 auto;align-items:start;
+}
+.faq-img{
+  border-radius:4px;overflow:hidden;height:480px;position:sticky;top:100px;
+  box-shadow:0 24px 60px rgba(12,29,53,0.08);
+}
+.faq-img img{width:100%;height:100%;object-fit:cover}
+.faq-list{display:flex;flex-direction:column;gap:8px}
+.fq{
+  border-bottom:1px solid rgba(12,29,53,0.08);
+  transition:all 0.3s ease;
+}
+.fq-q{
+  display:flex;align-items:center;justify-content:space-between;
+  width:100%;padding:20px 0;background:transparent;border:none;
+  cursor:pointer;font-family:var(--sans);font-weight:600;
+  font-size:0.92rem;color:var(--navy);text-align:left;gap:16px;
+}
+.fq-q .fq-icon{
+  width:28px;height:28px;min-width:28px;border-radius:50%;
+  border:2px solid var(--navy);display:flex;align-items:center;
+  justify-content:center;transition:all 0.3s ease;font-size:0.8rem;color:var(--navy);
+}
+.fq.open .fq-q .fq-icon{background:var(--teal);border-color:var(--teal);color:var(--white);transform:rotate(45deg)}
+.fq-a{max-height:0;overflow:hidden;transition:max-height 0.5s cubic-bezier(0.16,1,0.3,1)}
+.fq.open .fq-a{max-height:300px}
+.fq-a-inner{padding:0 0 20px;font-size:0.88rem;color:var(--text-mid);line-height:1.7}
+
+/* ===== FOOTER ===== */
+footer{
+  background:var(--navy);color:rgba(255,255,255,0.6);
+  padding:64px clamp(24px,5vw,80px) 32px;
+}
+.ft-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.ft-brand .nav-logo{color:var(--white);margin-bottom:16px}
+.ft-brand p{font-size:0.85rem;line-height:1.7;max-width:280px}
+.ft-col h4{color:var(--white);font-weight:700;font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:20px}
+.ft-col a{display:block;font-size:0.85rem;margin-bottom:10px;color:rgba(255,255,255,0.45);transition:color 0.3s}
+.ft-col a:hover{color:var(--teal-bright)}
+.ft-bottom{border-top:1px solid rgba(255,255,255,0.06);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:0.78rem}
+.ft-social{display:flex;gap:12px}
+.ft-social a{
+  width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,0.1);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.75rem;font-weight:700;color:rgba(255,255,255,0.45);
+  transition:all 0.3s;
+}
+.ft-social a:hover{background:var(--teal);border-color:var(--teal);color:var(--white)}
+
+/* ===== SCROLL REVEAL ===== */
+.sr{opacity:0;transform:translateY(40px);transition:all 0.8s cubic-bezier(0.16,1,0.3,1)}
+.sr.vis{opacity:1;transform:translateY(0)}
+.sr-d1{transition-delay:0.1s}.sr-d2{transition-delay:0.2s}.sr-d3{transition-delay:0.3s}.sr-d4{transition-delay:0.4s}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1024px){
+  .about-grid{grid-template-columns:1fr;gap:60px}
+  .about-images{height:420px}
+  .services-grid{grid-template-columns:1fr 1fr}
+  .values-grid{grid-template-columns:1fr}
+  .values-img{height:320px;margin-top:40px}
+  .steps-row{grid-template-columns:1fr 1fr;gap:40px}
+  .steps-row::before{display:none}
+  .t-card{grid-template-columns:1fr}
+  .t-img{height:220px}
+  .ft-grid{grid-template-columns:1fr 1fr}
+  .faq-wrap{grid-template-columns:1fr}
+  .faq-img{display:none}
+}
+@media(max-width:768px){
+  .nav-links{display:none}
+  .mobile-btn{display:block}
+  nav.menu-open .nav-links{
+    display:flex;flex-direction:column;position:absolute;
+    top:80px;left:0;right:0;background:var(--cream);
+    padding:28px 24px;gap:20px;
+    box-shadow:0 16px 48px rgba(0,0,0,0.08);
+  }
+  nav.menu-open .nav-links a{color:var(--text-mid)!important}
+  .hero{min-height:auto;height:auto;padding:120px 24px 60px;align-items:center}
+  .hero h1{font-size:clamp(2.4rem,8vw,3.4rem)}
+  .about-images{height:340px}
+  .about-img-main{height:300px}
+  .about-img-accent{height:160px}
+  .services-grid{grid-template-columns:1fr}
+  .svc-card{height:320px}
+  .steps-row{grid-template-columns:1fr 1fr}
+  .ft-grid{grid-template-columns:1fr;gap:28px}
+  .ft-bottom{flex-direction:column;gap:16px;text-align:center}
+  .gallery-img{width:240px;height:180px}
+  .t-body{padding:32px 24px}
+  .t-quote{font-size:1rem}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor-dot" id="cursorDot"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo"><span class="logo-pi">π</span> MathGuru</a>
+  <ul class="nav-links">
+    <li><a href="#about" data-i18n="nav.about">About</a></li>
+    <li><a href="#services" data-i18n="nav.services">Services</a></li>
+    <li><a href="#levels" data-i18n="nav.curricula">Curricula</a></li>
+    <li><a href="#testimonials" data-i18n="nav.testimonials">Testimonials</a></li>
+    <li><a href="#faq" data-i18n="nav.faq">FAQ</a></li>
+    <li>
+      <div class="lang-pills">
+        <button class="lang-pill active" onclick="switchLang('en',this)">EN</button>
+        <button class="lang-pill" onclick="switchLang('de',this)">DE</button>
+      </div>
+    </li>
+    <li><a href="#booking" class="nav-cta-btn" data-i18n="nav.cta">Book Free Session</a></li>
+  </ul>
+  <button class="mobile-btn" onclick="document.getElementById('nav').classList.toggle('menu-open')" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=1800&h=1100&fit=crop&q=80" alt="Education classroom">
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1 data-i18n="hero.title" data-i18n-html="true">Your Path to<br><em>Excellence</em> in<br>Mathematics</h1>
+    <p class="hero-sub" data-i18n="hero.sub">Personalised revision & support courses in the heart of Zürich and online — tailored to your needs, in English & Deutsch.</p>
+    <div class="hero-btns">
+      <a href="#booking" class="btn-hero primary" data-i18n="hero.cta">Book Free Consultation →</a>
+      <a href="#services" class="btn-hero outline" data-i18n="hero.explore">Explore Services</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span data-i18n="hero.scroll">Scroll</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-bar">
+  <div class="marquee-track" id="mq">
+    <div class="marquee-item"><strong>15+</strong> <span data-i18n="mq.years">Years Teaching Experience</span></div>
+    <div class="marquee-item"><strong>ETH</strong> <span data-i18n="mq.eth">Zürich Masters Graduate</span></div>
+    <div class="marquee-item"><strong>IB</strong> <span data-i18n="mq.ib">Specialist Since 2009</span></div>
+    <div class="marquee-item"><strong>2</strong> <span data-i18n="mq.lang">Languages — EN · DE</span></div>
+    <div class="marquee-item"><strong>Online</strong> <span data-i18n="mq.online">& In-Person Sessions</span></div>
+    <div class="marquee-item"><strong>A*</strong> <span data-i18n="mq.grade">Average Grade Improvement</span></div>
+    <div class="marquee-item"><strong>15+</strong> <span data-i18n="mq.years">Years Teaching Experience</span></div>
+    <div class="marquee-item"><strong>ETH</strong> <span data-i18n="mq.eth">Zürich Masters Graduate</span></div>
+    <div class="marquee-item"><strong>IB</strong> <span data-i18n="mq.ib">Specialist Since 2009</span></div>
+    <div class="marquee-item"><strong>2</strong> <span data-i18n="mq.lang">Languages — EN · DE</span></div>
+    <div class="marquee-item"><strong>Online</strong> <span data-i18n="mq.online">& In-Person Sessions</span></div>
+    <div class="marquee-item"><strong>A*</strong> <span data-i18n="mq.grade">Average Grade Improvement</span></div>
+  </div>
+</div>
+
+<!-- GALLERY STRIP -->
+<div class="gallery">
+  <div class="gallery-track" id="gt">
+    <div class="gallery-img"><img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=640&h=480&fit=crop&q=80" alt="Classroom"><span class="gallery-label" data-i18n="gal.classroom">Classroom Learning</span></div>
+    <div class="gallery-img"><img src="https://images.unsplash.com/photo-1596496050827-8299e0220de1?w=640&h=480&fit=crop&q=80" alt="Studying"><span class="gallery-label" data-i18n="gal.study">Focused Study</span></div>
+    <div class="gallery-img"><img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=640&h=480&fit=crop&q=80" alt="Math board"><span class="gallery-label" data-i18n="gal.problem">Problem Solving</span></div>
+    <div class="gallery-img"><img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=640&h=480&fit=crop&q=80" alt="Collaboration"><span class="gallery-label" data-i18n="gal.collab">Collaborative Sessions</span></div>
+    <div class="gallery-img"><img src="https://images.unsplash.com/photo-1453733190371-0a9bedd82893?w=640&h=480&fit=crop&q=80" alt="Zurich"><span class="gallery-label" data-i18n="gal.zurich">Based in Zürich</span></div>
+    <div class="gallery-img"><img src="https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?w=640&h=480&fit=crop&q=80" alt="Online"><span class="gallery-label" data-i18n="gal.online">Online Worldwide</span></div>
+    <div class="gallery-img"><img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=640&h=480&fit=crop&q=80" alt="Students"><span class="gallery-label" data-i18n="gal.success">Student Success</span></div>
+    <div class="gallery-img"><img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=640&h=480&fit=crop&q=80" alt="Tutoring"><span class="gallery-label" data-i18n="gal.tutor">Personal Tutoring</span></div>
+    <!-- duplicate for infinite scroll -->
+    <div class="gallery-img"><img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=640&h=480&fit=crop&q=80" alt="Classroom"><span class="gallery-label" data-i18n="gal.classroom">Classroom Learning</span></div>
+    <div class="gallery-img"><img src="https://images.unsplash.com/photo-1596496050827-8299e0220de1?w=640&h=480&fit=crop&q=80" alt="Studying"><span class="gallery-label" data-i18n="gal.study">Focused Study</span></div>
+    <div class="gallery-img"><img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=640&h=480&fit=crop&q=80" alt="Math board"><span class="gallery-label" data-i18n="gal.problem">Problem Solving</span></div>
+    <div class="gallery-img"><img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=640&h=480&fit=crop&q=80" alt="Collaboration"><span class="gallery-label" data-i18n="gal.collab">Collaborative Sessions</span></div>
+    <div class="gallery-img"><img src="https://images.unsplash.com/photo-1453733190371-0a9bedd82893?w=640&h=480&fit=crop&q=80" alt="Zurich"><span class="gallery-label" data-i18n="gal.zurich">Based in Zürich</span></div>
+    <div class="gallery-img"><img src="https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?w=640&h=480&fit=crop&q=80" alt="Online"><span class="gallery-label" data-i18n="gal.online">Online Worldwide</span></div>
+    <div class="gallery-img"><img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=640&h=480&fit=crop&q=80" alt="Students"><span class="gallery-label" data-i18n="gal.success">Student Success</span></div>
+    <div class="gallery-img"><img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=640&h=480&fit=crop&q=80" alt="Tutoring"><span class="gallery-label" data-i18n="gal.tutor">Personal Tutoring</span></div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-grid">
+    <div class="about-images sr">
+      <div class="about-img-main"><img src="https://images.unsplash.com/photo-1544717305-2782549b5136?w=800&h=600&fit=crop&q=80" alt="Teaching math"></div>
+      <div class="about-img-accent"><img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=600&h=400&fit=crop&q=80" alt="ETH Zurich"></div>
+      <div class="about-badge"><strong>15+</strong><span data-i18n="about.badge">Years Exp.</span></div>
+    </div>
+    <div class="about-text">
+      <div class="label sr" data-i18n="about.label">Meet Your Tutor</div>
+      <h2 class="sr sr-d1" data-i18n="about.title" data-i18n-html="true">Mr. Challapalli — <em>World-Class</em> Education, Personal Approach</h2>
+      <p class="lead sr sr-d2" data-i18n="about.lead">With a Masters from ETH Zürich and a formal teaching qualification, Mr. Challapalli brings deep mathematical knowledge and proven pedagogical expertise. Teaching internationally since 2009 with a focus on IB curricula.</p>
+      <div class="cred-list">
+        <div class="cred-row sr sr-d1"><div class="cred-icon">🏛️</div><div><div class="cred-label" data-i18n="about.cred1">Masters from ETH Zürich</div><div class="cred-sub" data-i18n="about.cred1s">World-class mathematical foundation</div></div></div>
+        <div class="cred-row sr sr-d2"><div class="cred-icon">📜</div><div><div class="cred-label" data-i18n="about.cred2">Formal Teaching Qualification</div><div class="cred-sub" data-i18n="about.cred2s">Certified pedagogical training</div></div></div>
+        <div class="cred-row sr sr-d3"><div class="cred-icon">🌍</div><div><div class="cred-label" data-i18n="about.cred3">Internationally Experienced</div><div class="cred-sub" data-i18n="about.cred3s">Multi-cultural, multi-curricula expertise</div></div></div>
+        <div class="cred-row sr sr-d4"><div class="cred-icon">📐</div><div><div class="cred-label" data-i18n="about.cred4">IB Specialist Since 2009</div><div class="cred-sub" data-i18n="about.cred4s">Deep expertise in IB Mathematics AA & AI</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="services-head">
+    <div class="label sr" data-i18n="svc.label">What We Offer</div>
+    <h2 class="sr sr-d1" data-i18n="svc.title" data-i18n-html="true">Tailored to <em>Your Needs</em></h2>
+    <p class="sr sr-d2" data-i18n="svc.sub">Comprehensive mathematics support designed around your curriculum, schedule, and goals.</p>
+  </div>
+  <div class="services-grid">
+    <div class="svc-card sr">
+      <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&h=500&fit=crop&q=80" alt="Revision">
+      <span class="svc-num">01</span>
+      <div class="svc-overlay">
+        <span class="svc-tag" data-i18n="svc.popular">Most Popular</span>
+        <h3 data-i18n="svc.1t">Revision & Support</h3>
+        <p data-i18n="svc.1p">Structured courses to revise key concepts, fill gaps, and build exam confidence.</p>
+      </div>
+    </div>
+    <div class="svc-card sr sr-d1">
+      <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600&h=500&fit=crop&q=80" alt="Exam strategies">
+      <span class="svc-num">02</span>
+      <div class="svc-overlay">
+        <h3 data-i18n="svc.2t">Exam Strategies</h3>
+        <p data-i18n="svc.2p">Proven frameworks — time management, problem-solving, and mark maximisation.</p>
+      </div>
+    </div>
+    <div class="svc-card sr sr-d2">
+      <img src="https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?w=600&h=500&fit=crop&q=80" alt="Holiday">
+      <span class="svc-num">03</span>
+      <div class="svc-overlay">
+        <h3 data-i18n="svc.3t">Holiday Intensives</h3>
+        <p data-i18n="svc.3p">Accelerated learning during school breaks — a full term in focused sessions.</p>
+      </div>
+    </div>
+    <div class="svc-card sr">
+      <img src="https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?w=600&h=500&fit=crop&q=80" alt="Online">
+      <span class="svc-num">04</span>
+      <div class="svc-overlay">
+        <span class="svc-tag" data-i18n="svc.worldwide">Worldwide</span>
+        <h3 data-i18n="svc.4t">Online Tutoring</h3>
+        <p data-i18n="svc.4p">High-quality sessions from anywhere with interactive whiteboards.</p>
+      </div>
+    </div>
+    <div class="svc-card sr sr-d1">
+      <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600&h=500&fit=crop&q=80" alt="In person">
+      <span class="svc-num">05</span>
+      <div class="svc-overlay">
+        <h3 data-i18n="svc.5t">In-Person in Zürich</h3>
+        <p data-i18n="svc.5p">Face-to-face sessions in Zürich's metropolitan area.</p>
+      </div>
+    </div>
+    <div class="svc-card sr sr-d2">
+      <img src="https://images.unsplash.com/photo-1529390079861-591de354faf5?w=600&h=500&fit=crop&q=80" alt="Languages">
+      <span class="svc-num">06</span>
+      <div class="svc-overlay">
+        <span class="svc-tag">EN · DE</span>
+        <h3 data-i18n="svc.6t">Multilingual Support</h3>
+        <p data-i18n="svc.6p">Lessons in English or German — your choice.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES / LEVELS -->
+<section class="values" id="levels">
+  <div class="values-grid">
+    <div>
+      <div class="values-head">
+        <div class="label sr" data-i18n="val.label">Curricula & Levels</div>
+        <h2 class="sr sr-d1" data-i18n="val.title" data-i18n-html="true">For <em>All Levels</em>,<br>All Goals</h2>
+      </div>
+      <div class="values-list">
+        <div class="val-item sr"><div class="val-num">01</div><div class="val-content"><h3 data-i18n="val.1t">IB Mathematics</h3><p data-i18n="val.1p">Analysis & Approaches and Applications & Interpretation — SL and HL. Deep specialist expertise since 2009.</p></div></div>
+        <div class="val-item sr sr-d1"><div class="val-num">02</div><div class="val-content"><h3 data-i18n="val.2t">IGCSE & A-Levels</h3><p data-i18n="val.2p">Core, Extended, AS and A2 Mathematics. Comprehensive preparation for Cambridge examinations.</p></div></div>
+        <div class="val-item sr sr-d2"><div class="val-num">03</div><div class="val-content"><h3 data-i18n="val.3t">Swiss Gymnasium</h3><p data-i18n="val.3p">Matura preparation tailored to the Swiss secondary system, in German or English.</p></div></div>
+        <div class="val-item sr sr-d3"><div class="val-num">04</div><div class="val-content"><h3 data-i18n="val.4t">University & SAT/ACT</h3><p data-i18n="val.4p">First-year university foundations and standardised test preparation for US admissions.</p></div></div>
+      </div>
+    </div>
+    <div class="values-img sr">
+      <img src="https://images.unsplash.com/photo-1509228468518-180dd4864904?w=800&h=600&fit=crop&q=80" alt="Students classroom">
+    </div>
+  </div>
+</section>
+
+<!-- STEPS -->
+<section class="steps" id="how">
+  <div class="steps-head">
+    <div class="label sr" data-i18n="step.label">How It Works</div>
+    <h2 class="sr sr-d1" data-i18n="step.title" data-i18n-html="true">Getting Started is <em>Simple</em></h2>
+  </div>
+  <div class="steps-row">
+    <div class="step sr">
+      <div class="step-circle"><img src="https://images.unsplash.com/photo-1556745757-8d76bdb6984b?w=200&h=200&fit=crop&q=80" alt="Call"><div class="step-num">1</div></div>
+      <h3 data-i18n="step.1t">Book a Free Call</h3><p data-i18n="step.1p">15-min consultation to discuss your goals.</p>
+    </div>
+    <div class="step sr sr-d1">
+      <div class="step-circle"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=200&h=200&fit=crop&q=80" alt="Assess"><div class="step-num">2</div></div>
+      <h3 data-i18n="step.2t">Assessment</h3><p data-i18n="step.2p">We evaluate your level and identify gaps.</p>
+    </div>
+    <div class="step sr sr-d2">
+      <div class="step-circle"><img src="https://images.unsplash.com/photo-1517842645767-c639042777db?w=200&h=200&fit=crop&q=80" alt="Plan"><div class="step-num">3</div></div>
+      <h3 data-i18n="step.3t">Custom Plan</h3><p data-i18n="step.3p">Tailored to your curriculum and timeline.</p>
+    </div>
+    <div class="step sr sr-d3">
+      <div class="step-circle"><img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=200&h=200&fit=crop&q=80" alt="Learn"><div class="step-num">4</div></div>
+      <h3 data-i18n="step.4t">Start Learning</h3><p data-i18n="step.4p">Watch your confidence soar.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="testimonials">
+  <div class="test-head">
+    <div class="label sr" data-i18n="test.label">Student Stories</div>
+    <h2 class="sr sr-d1" data-i18n="test.title" data-i18n-html="true">What Parents & Students <em>Say</em></h2>
+  </div>
+  <div class="carousel sr">
+    <div class="c-track" id="ct">
+      <div class="c-slide">
+        <div class="t-card">
+          <div class="t-img"><img src="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=500&h=600&fit=crop&q=80" alt="Student"></div>
+          <div class="t-body">
+            <div class="t-stars">★ ★ ★ ★ ★</div>
+            <p class="t-quote" data-i18n="test.1q">Mr. Challapalli transformed my daughter's relationship with mathematics. She went from dreading IB Math HL to scoring a 7. His patience and curriculum knowledge made all the difference.</p>
+            <div class="t-author"><div class="t-avatar">SM</div><div><div class="t-name">Sarah M.</div><div class="t-role" data-i18n="test.1r">Parent — IB Student, Zürich</div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="c-slide">
+        <div class="t-card">
+          <div class="t-img"><img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=500&h=600&fit=crop&q=80" alt="Student"></div>
+          <div class="t-body">
+            <div class="t-stars">★ ★ ★ ★ ★</div>
+            <p class="t-quote" data-i18n="test.2q">The exam strategies were game-changing. I used to panic during tests, but now I approach each problem with a clear framework. My A-Level results improved by two full grades.</p>
+            <div class="t-author"><div class="t-avatar">LK</div><div><div class="t-name">Luca K.</div><div class="t-role" data-i18n="test.2r">A-Level Student, Online</div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="c-slide">
+        <div class="t-card">
+          <div class="t-img"><img src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=500&h=600&fit=crop&q=80" alt="Student"></div>
+          <div class="t-body">
+            <div class="t-stars">★ ★ ★ ★ ★</div>
+            <p class="t-quote" data-i18n="test.3q">We tried multiple tutors before MathGuru. The difference was night and day. Mr. Challapalli's ETH background makes complex topics feel intuitive and accessible.</p>
+            <div class="t-author"><div class="t-avatar">RP</div><div><div class="t-name">Rajesh P.</div><div class="t-role" data-i18n="test.3r">Parent — IGCSE Student, Zürich</div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="c-slide">
+        <div class="t-card">
+          <div class="t-img"><img src="https://images.unsplash.com/photo-1606761568499-6d2451b23c66?w=500&h=600&fit=crop&q=80" alt="Student"></div>
+          <div class="t-body">
+            <div class="t-stars">★ ★ ★ ★ ★</div>
+            <p class="t-quote" data-i18n="test.4q">The holiday intensive was exactly what I needed. In two weeks I covered everything I'd struggled with all semester. Bilingual support in German and English was incredibly helpful.</p>
+            <div class="t-author"><div class="t-avatar">AF</div><div><div class="t-name">Anna F.</div><div class="t-role" data-i18n="test.4r">Gymnasium Student, Zürich</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="c-nav">
+      <button class="c-btn" onclick="slide(-1)" aria-label="Previous"><svg viewBox="0 0 16 16" fill="none"><path d="M10 4l-4 4 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="c-dots" id="cd">
+        <button class="c-dot active" onclick="goTo(0)"></button>
+        <button class="c-dot" onclick="goTo(1)"></button>
+        <button class="c-dot" onclick="goTo(2)"></button>
+        <button class="c-dot" onclick="goTo(3)"></button>
+      </div>
+      <button class="c-btn" onclick="slide(1)" aria-label="Next"><svg viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="booking">
+  <div class="cta-bg"><img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=1600&h=800&fit=crop&q=80" alt="Education"></div>
+  <div class="cta-inner sr">
+    <h2 data-i18n="cta.title" data-i18n-html="true">Book Your Free<br><em>Consultation</em> Today</h2>
+    <p data-i18n="cta.sub">Schedule a 15-minute introductory call. No commitment — just a conversation about how we can help.</p>
+    <a href="https://www.cal.eu/chall/15min" target="_blank" rel="noopener noreferrer" class="btn-gold" data-i18n="cta.btn">Schedule on Cal →</a>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="faq-head">
+    <div class="label sr" data-i18n="faq.label">Questions?</div>
+    <h2 class="sr sr-d1" data-i18n="faq.title" data-i18n-html="true">Frequently <em>Asked</em></h2>
+  </div>
+  <div class="faq-wrap">
+    <div class="faq-img sr"><img src="https://images.unsplash.com/photo-1596496050755-c923e73e42e1?w=600&h=800&fit=crop&q=80" alt="Student"></div>
+    <div class="faq-list">
+      <div class="fq sr"><button class="fq-q" onclick="togFaq(this)"><span data-i18n="faq.1q">What curricula do you cover?</span><span class="fq-icon">+</span></button><div class="fq-a"><div class="fq-a-inner" data-i18n="faq.1a">IB Mathematics (AA & AI, SL & HL), IGCSE, A-Levels, Swiss Gymnasium (Matura), SAT/ACT, and first-year university mathematics. Each programme is tailored to your specific curriculum.</div></div></div>
+      <div class="fq sr sr-d1"><button class="fq-q" onclick="togFaq(this)"><span data-i18n="faq.2q">Do you offer online sessions?</span><span class="fq-icon">+</span></button><div class="fq-a"><div class="fq-a-inner" data-i18n="faq.2a">Absolutely. Online sessions are available worldwide using interactive whiteboards and screen sharing — quality comparable to in-person. Students attend from different countries and time zones.</div></div></div>
+      <div class="fq sr sr-d2"><button class="fq-q" onclick="togFaq(this)"><span data-i18n="faq.3q">In which languages are sessions available?</span><span class="fq-icon">+</span></button><div class="fq-a"><div class="fq-a-inner" data-i18n="faq.3a">Sessions are available in English and German (Deutsch). We use whichever language — or combination — works best for your learning.</div></div></div>
+      <div class="fq sr sr-d3"><button class="fq-q" onclick="togFaq(this)"><span data-i18n="faq.4q">How do holiday intensives work?</span><span class="fq-icon">+</span></button><div class="fq-a"><div class="fq-a-inner" data-i18n="faq.4a">During school breaks I offer intensive courses covering a full term in 1–2 weeks. Sessions run 1.5–2 hours daily. Perfect for catching up, getting ahead, or exam prep.</div></div></div>
+      <div class="fq sr sr-d4"><button class="fq-q" onclick="togFaq(this)"><span data-i18n="faq.5q">How much does tutoring cost?</span><span class="fq-icon">+</span></button><div class="fq-a"><div class="fq-a-inner" data-i18n="faq.5a">Pricing depends on level, frequency, and format. I offer a free initial consultation to assess needs and provide a transparent quote. Package discounts are available.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-grid">
+    <div class="ft-brand">
+      <a href="#" class="nav-logo"><span class="logo-pi">π</span> MathGuru</a>
+      <p data-i18n="ft.desc">Your path to excellence in mathematics. Personalised tutoring in Zürich and online worldwide.</p>
+    </div>
+    <div class="ft-col"><h4 data-i18n="ft.links">Links</h4><a href="#about" data-i18n="nav.about">About</a><a href="#services" data-i18n="nav.services">Services</a><a href="#levels" data-i18n="nav.curricula">Curricula</a><a href="#testimonials" data-i18n="nav.testimonials">Testimonials</a></div>
+    <div class="ft-col"><h4 data-i18n="ft.services">Services</h4><a href="#services" data-i18n="svc.1t">Revision & Support</a><a href="#services" data-i18n="svc.2t">Exam Strategies</a><a href="#services" data-i18n="svc.3t">Holiday Intensives</a><a href="#services" data-i18n="svc.4t">Online Tutoring</a></div>
+    <div class="ft-col"><h4 data-i18n="ft.contact">Contact</h4><a href="https://www.mathguru.ch" target="_blank">www.mathguru.ch</a><a href="#booking" data-i18n="ft.book">Book a Session</a><a href="mailto:info@mathguru.ch">info@mathguru.ch</a></div>
+  </div>
+  <div class="ft-bottom">
+    <p data-i18n="ft.copy">© 2026 MathGuru.ch — All rights reserved.</p>
+    <div class="ft-social"><a href="#">in</a><a href="#">ig</a><a href="#">wa</a></div>
+  </div>
+</footer>
+
+<script>
+// ===== i18n TRANSLATION SYSTEM =====
+const T = {
+en: {
+  "nav.about":"About","nav.services":"Services","nav.curricula":"Curricula","nav.testimonials":"Testimonials","nav.faq":"FAQ","nav.cta":"Book Free Session",
+  "hero.title":"Your Path to<br><em>Excellence</em> in<br>Mathematics","hero.sub":"Personalised revision & support courses in the heart of Zürich and online — tailored to your needs, in English & Deutsch.","hero.cta":"Book Free Consultation →","hero.explore":"Explore Services","hero.scroll":"Scroll",
+  "mq.years":"Years Teaching Experience","mq.eth":"Zürich Masters Graduate","mq.ib":"Specialist Since 2009","mq.lang":"Languages — EN · DE","mq.online":"& In-Person Sessions","mq.grade":"Average Grade Improvement",
+  "gal.classroom":"Classroom Learning","gal.study":"Focused Study","gal.problem":"Problem Solving","gal.collab":"Collaborative Sessions","gal.zurich":"Based in Zürich","gal.online":"Online Worldwide","gal.success":"Student Success","gal.tutor":"Personal Tutoring",
+  "about.badge":"Years Exp.","about.label":"Meet Your Tutor","about.title":"Mr. Challapalli — <em>World-Class</em> Education, Personal Approach","about.lead":"With a Masters from ETH Zürich and a formal teaching qualification, Mr. Challapalli brings deep mathematical knowledge and proven pedagogical expertise. Teaching internationally since 2009 with a focus on IB curricula.",
+  "about.cred1":"Masters from ETH Zürich","about.cred1s":"World-class mathematical foundation","about.cred2":"Formal Teaching Qualification","about.cred2s":"Certified pedagogical training","about.cred3":"Internationally Experienced","about.cred3s":"Multi-cultural, multi-curricula expertise","about.cred4":"IB Specialist Since 2009","about.cred4s":"Deep expertise in IB Mathematics AA & AI",
+  "svc.label":"What We Offer","svc.title":"Tailored to <em>Your Needs</em>","svc.sub":"Comprehensive mathematics support designed around your curriculum, schedule, and goals.","svc.popular":"Most Popular","svc.worldwide":"Worldwide",
+  "svc.1t":"Revision & Support","svc.1p":"Structured courses to revise key concepts, fill gaps, and build exam confidence.","svc.2t":"Exam Strategies","svc.2p":"Proven frameworks — time management, problem-solving, and mark maximisation.","svc.3t":"Holiday Intensives","svc.3p":"Accelerated learning during school breaks — a full term in focused sessions.","svc.4t":"Online Tutoring","svc.4p":"High-quality sessions from anywhere with interactive whiteboards.","svc.5t":"In-Person in Zürich","svc.5p":"Face-to-face sessions in Zürich's metropolitan area.","svc.6t":"Multilingual Support","svc.6p":"Lessons in English or German — your choice.",
+  "val.label":"Curricula & Levels","val.title":"For <em>All Levels</em>,<br>All Goals","val.1t":"IB Mathematics","val.1p":"Analysis & Approaches and Applications & Interpretation — SL and HL. Deep specialist expertise since 2009.","val.2t":"IGCSE & A-Levels","val.2p":"Core, Extended, AS and A2 Mathematics. Comprehensive preparation for Cambridge examinations.","val.3t":"Swiss Gymnasium","val.3p":"Matura preparation tailored to the Swiss secondary system, in German or English.","val.4t":"University & SAT/ACT","val.4p":"First-year university foundations and standardised test preparation for US admissions.",
+  "step.label":"How It Works","step.title":"Getting Started is <em>Simple</em>","step.1t":"Book a Free Call","step.1p":"15-min consultation to discuss your goals.","step.2t":"Assessment","step.2p":"We evaluate your level and identify gaps.","step.3t":"Custom Plan","step.3p":"Tailored to your curriculum and timeline.","step.4t":"Start Learning","step.4p":"Watch your confidence soar.",
+  "test.label":"Student Stories","test.title":"What Parents & Students <em>Say</em>",
+  "test.1q":"Mr. Challapalli transformed my daughter's relationship with mathematics. She went from dreading IB Math HL to scoring a 7. His patience and curriculum knowledge made all the difference.","test.1r":"Parent — IB Student, Zürich",
+  "test.2q":"The exam strategies were game-changing. I used to panic during tests, but now I approach each problem with a clear framework. My A-Level results improved by two full grades.","test.2r":"A-Level Student, Online",
+  "test.3q":"We tried multiple tutors before MathGuru. The difference was night and day. Mr. Challapalli's ETH background makes complex topics feel intuitive and accessible.","test.3r":"Parent — IGCSE Student, Zürich",
+  "test.4q":"The holiday intensive was exactly what I needed. In two weeks I covered everything I'd struggled with all semester. Bilingual support in German and English was incredibly helpful.","test.4r":"Gymnasium Student, Zürich",
+  "cta.title":"Book Your Free<br><em>Consultation</em> Today","cta.sub":"Schedule a 15-minute introductory call. No commitment — just a conversation about how we can help.","cta.btn":"Schedule on Cal →",
+  "faq.label":"Questions?","faq.title":"Frequently <em>Asked</em>",
+  "faq.1q":"What curricula do you cover?","faq.1a":"IB Mathematics (AA & AI, SL & HL), IGCSE, A-Levels, Swiss Gymnasium (Matura), SAT/ACT, and first-year university mathematics. Each programme is tailored to your specific curriculum.",
+  "faq.2q":"Do you offer online sessions?","faq.2a":"Absolutely. Online sessions are available worldwide using interactive whiteboards and screen sharing — quality comparable to in-person. Students attend from different countries and time zones.",
+  "faq.3q":"In which languages are sessions available?","faq.3a":"Sessions are available in English and German (Deutsch). We use whichever language — or combination — works best for your learning.",
+  "faq.4q":"How do holiday intensives work?","faq.4a":"During school breaks I offer intensive courses covering a full term in 1–2 weeks. Sessions run 1.5–2 hours daily. Perfect for catching up, getting ahead, or exam prep.",
+  "faq.5q":"How much does tutoring cost?","faq.5a":"Pricing depends on level, frequency, and format. I offer a free initial consultation to assess needs and provide a transparent quote. Package discounts are available.",
+  "ft.desc":"Your path to excellence in mathematics. Personalised tutoring in Zürich and online worldwide.","ft.links":"Links","ft.services":"Services","ft.contact":"Contact","ft.book":"Book a Session","ft.copy":"© 2026 MathGuru.ch — All rights reserved."
+},
+de: {
+  "nav.about":"Über uns","nav.services":"Angebot","nav.curricula":"Lehrpläne","nav.testimonials":"Erfahrungen","nav.faq":"FAQ","nav.cta":"Gratis Termin buchen",
+  "hero.title":"Ihr Weg zur<br><em>Exzellenz</em> in<br>Mathematik","hero.sub":"Individuelle Nachhilfe- und Förderkurse im Herzen von Zürich und online — auf Ihre Bedürfnisse zugeschnitten, auf Deutsch & Englisch.","hero.cta":"Gratis Beratung buchen →","hero.explore":"Angebot entdecken","hero.scroll":"Scrollen",
+  "mq.years":"Jahre Unterrichtserfahrung","mq.eth":"Master-Abschluss der ETH Zürich","mq.ib":"IB-Spezialist seit 2009","mq.lang":"Sprachen — EN · DE","mq.online":"& Präsenzunterricht","mq.grade":"Durchschnittliche Notenverbesserung",
+  "gal.classroom":"Unterricht im Klassenzimmer","gal.study":"Konzentriertes Lernen","gal.problem":"Problemlösung","gal.collab":"Gemeinsames Lernen","gal.zurich":"Standort Zürich","gal.online":"Online weltweit","gal.success":"Erfolgsgeschichten","gal.tutor":"Persönliche Nachhilfe",
+  "about.badge":"Jahre Erf.","about.label":"Ihr Nachhilfelehrer","about.title":"Herr Challapalli — <em>Erstklassige</em> Ausbildung, persönlicher Ansatz","about.lead":"Mit einem Master-Abschluss der ETH Zürich und einer formalen Lehrbefähigung bringt Herr Challapalli fundiertes mathematisches Wissen und bewährte pädagogische Kompetenz mit. International tätig seit 2009 mit Schwerpunkt auf dem IB-Lehrplan.",
+  "about.cred1":"Master der ETH Zürich","about.cred1s":"Erstklassige mathematische Grundlage","about.cred2":"Formale Lehrbefähigung","about.cred2s":"Zertifizierte pädagogische Ausbildung","about.cred3":"International erfahren","about.cred3s":"Multikulturelle, lehrplanübergreifende Expertise","about.cred4":"IB-Spezialist seit 2009","about.cred4s":"Tiefe Expertise in IB Mathematik AA & AI",
+  "svc.label":"Unser Angebot","svc.title":"Auf <em>Ihre Bedürfnisse</em> zugeschnitten","svc.sub":"Umfassende Mathematik-Unterstützung, abgestimmt auf Ihren Lehrplan, Zeitplan und Ihre Ziele.","svc.popular":"Am beliebtesten","svc.worldwide":"Weltweit",
+  "svc.1t":"Repetition & Förderung","svc.1p":"Strukturierte Kurse zur Wiederholung zentraler Konzepte, Schliessung von Lücken und Aufbau von Prüfungssicherheit.","svc.2t":"Prüfungsstrategien","svc.2p":"Bewährte Methoden — Zeitmanagement, Problemlösung und Punktemaximierung.","svc.3t":"Ferienkurse","svc.3p":"Beschleunigtes Lernen in den Schulferien — ein ganzes Semester in konzentrierten Einheiten.","svc.4t":"Online-Nachhilfe","svc.4p":"Hochwertige Sitzungen von überall mit interaktiven Whiteboards.","svc.5t":"Präsenz in Zürich","svc.5p":"Persönlicher Unterricht im Grossraum Zürich.","svc.6t":"Mehrsprachig","svc.6p":"Unterricht auf Englisch oder Deutsch — Ihre Wahl.",
+  "val.label":"Lehrpläne & Stufen","val.title":"Für <em>alle Stufen</em>,<br>alle Ziele","val.1t":"IB Mathematik","val.1p":"Analysis & Approaches und Applications & Interpretation — SL und HL. Tiefe Spezialisierung seit 2009.","val.2t":"IGCSE & A-Levels","val.2p":"Core, Extended, AS und A2 Mathematik. Umfassende Vorbereitung auf Cambridge-Prüfungen.","val.3t":"Schweizer Gymnasium","val.3p":"Maturitätsvorbereitung, zugeschnitten auf das Schweizer System, auf Deutsch oder Englisch.","val.4t":"Universität & SAT/ACT","val.4p":"Grundlagen für das erste Studienjahr und standardisierte Testvorbereitungen.",
+  "step.label":"So funktioniert's","step.title":"Der Einstieg ist <em>einfach</em>","step.1t":"Gratis-Anruf buchen","step.1p":"15-minütiges Gespräch über Ihre Ziele.","step.2t":"Bestandsaufnahme","step.2p":"Wir bewerten Ihr Niveau und finden Lücken.","step.3t":"Individueller Plan","step.3p":"Massgeschneidert für Ihren Lehrplan und Zeitplan.","step.4t":"Lernen beginnen","step.4p":"Erleben Sie, wie Ihr Selbstvertrauen wächst.",
+  "test.label":"Erfahrungsberichte","test.title":"Was Eltern & Schüler <em>sagen</em>",
+  "test.1q":"Herr Challapalli hat die Beziehung meiner Tochter zur Mathematik grundlegend verändert. Von Angst vor IB Math HL bis zur Note 7. Seine Geduld und Lehrplankenntnisse haben den Unterschied gemacht.","test.1r":"Elternteil — IB-Schülerin, Zürich",
+  "test.2q":"Die Prüfungsstrategien waren ein Wendepunkt. Früher geriet ich bei Tests in Panik, jetzt gehe ich jedes Problem mit einem klaren Rahmen an. Meine A-Level-Ergebnisse verbesserten sich um zwei volle Noten.","test.2r":"A-Level-Schüler, Online",
+  "test.3q":"Wir haben viele Nachhilfelehrer ausprobiert, bevor wir MathGuru gefunden haben. Der Unterschied war enorm. Herr Challapallis ETH-Hintergrund macht komplexe Themen intuitiv und verständlich.","test.3r":"Elternteil — IGCSE-Schüler, Zürich",
+  "test.4q":"Der Ferienkurs war genau das, was ich brauchte. In zwei Wochen habe ich alles aufgeholt, womit ich das ganze Semester gekämpft hatte. Die zweisprachige Unterstützung auf Deutsch und Englisch war unglaublich hilfreich.","test.4r":"Gymnasiastin, Zürich",
+  "cta.title":"Buchen Sie Ihr kostenloses<br><em>Beratungsgespräch</em>","cta.sub":"Vereinbaren Sie ein 15-minütiges Einführungsgespräch. Keine Verpflichtung — einfach ein Gespräch darüber, wie wir helfen können.","cta.btn":"Termin auf Cal buchen →",
+  "faq.label":"Fragen?","faq.title":"Häufig <em>gestellte Fragen</em>",
+  "faq.1q":"Welche Lehrpläne werden abgedeckt?","faq.1a":"IB Mathematik (AA & AI, SL & HL), IGCSE, A-Levels, Schweizer Gymnasium (Matura), SAT/ACT und Mathematik im ersten Studienjahr. Jedes Programm wird auf Ihren spezifischen Lehrplan zugeschnitten.",
+  "faq.2q":"Bieten Sie Online-Sitzungen an?","faq.2a":"Absolut. Online-Sitzungen sind weltweit verfügbar mit interaktiven Whiteboards und Bildschirmfreigabe — vergleichbare Qualität wie Präsenzunterricht. Schüler nehmen aus verschiedenen Ländern und Zeitzonen teil.",
+  "faq.3q":"In welchen Sprachen sind die Sitzungen verfügbar?","faq.3a":"Sitzungen sind auf Englisch und Deutsch verfügbar. Wir verwenden die Sprache — oder Kombination — die am besten zu Ihrem Lernen passt.",
+  "faq.4q":"Wie funktionieren die Ferienkurse?","faq.4a":"In den Schulferien biete ich Intensivkurse an, die den Stoff eines ganzen Semesters in 1–2 Wochen abdecken. Die Sitzungen dauern täglich 1,5–2 Stunden. Perfekt zum Aufholen, Vorarbeiten oder zur Prüfungsvorbereitung.",
+  "faq.5q":"Was kostet die Nachhilfe?","faq.5a":"Die Preise hängen von Stufe, Häufigkeit und Format ab. Ich biete ein kostenloses Erstgespräch an, um den Bedarf zu ermitteln und ein transparentes Angebot zu erstellen. Paketrabatte sind möglich.",
+  "ft.desc":"Ihr Weg zur Exzellenz in Mathematik. Individuelle Nachhilfe in Zürich und online weltweit.","ft.links":"Links","ft.services":"Angebot","ft.contact":"Kontakt","ft.book":"Termin buchen","ft.copy":"© 2026 MathGuru.ch — Alle Rechte vorbehalten."
+}
+};
+
+let currentLang = 'en';
+
+function applyLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  const dict = T[lang];
+  if (!dict) return;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (dict[key] !== undefined) {
+      if (el.hasAttribute('data-i18n-html')) {
+        el.innerHTML = dict[key];
+      } else {
+        el.textContent = dict[key];
+      }
+    }
+  });
+}
+
+function switchLang(lang, btn) {
+  document.querySelectorAll('.lang-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  applyLang(lang);
+}
+
+// Nav
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>60));
+
+// Carousel
+let cur=0;const trk=document.getElementById('ct'),tot=4;let ap;
+function upd(){trk.style.transform=`translateX(-${cur*100}%)`;document.querySelectorAll('.c-dot').forEach((d,i)=>d.classList.toggle('active',i===cur))}
+function slide(d){cur=(cur+d+tot)%tot;upd();rst()}
+function goTo(i){cur=i;upd();rst()}
+function rst(){clearInterval(ap);ap=setInterval(()=>slide(1),5500)}
+rst();
+
+// FAQ
+function togFaq(b){const f=b.closest('.fq'),o=f.classList.contains('open');document.querySelectorAll('.fq').forEach(e=>e.classList.remove('open'));if(!o)f.classList.add('open')}
+
+// Scroll reveal
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target)}})},{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.sr').forEach(el=>obs.observe(el));
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){e.preventDefault();const t=document.querySelector(this.getAttribute('href'));if(t){t.scrollIntoView({behavior:'smooth'});nav.classList.remove('menu-open')}})});
+
+// Cursor dot
+const dot=document.getElementById('cursorDot');
+document.addEventListener('mousemove',e=>{dot.style.left=e.clientX-5+'px';dot.style.top=e.clientY-5+'px'});
+document.querySelectorAll('a,button,.svc-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>dot.style.transform='scale(3)');
+  el.addEventListener('mouseleave',()=>dot.style.transform='scale(1)');
+});
+</script>
+</body>
+</html>
